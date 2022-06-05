@@ -5,5 +5,4 @@ const RestaurantSchema = new Schema({
     description: {type: String, required: true},
     image: {type: String, required: true}
 });
-const Restaurant = mongoose.model("Restaurant", RestaurantSchema);
-module.exports = Restaurant;
+module.exports = mongoose.model("Restaurant", RestaurantSchema);
