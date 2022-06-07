@@ -3,14 +3,16 @@ const cors = require("cors");
 const app = express();
 const { celebrate, Joi, errors, Segments } = require("celebrate");
 const RestaurantModel = require("./models/RestaurantModel");
+const ReservationModel = require("./models/ReservationModel");
 const formatRestaurant = require("./utils/formatRestaurants");
+const formatReservation = require("./utils/formatReservation");
 const validId = require("./utils/validId");
 // const ReservationModel = require("./models/ReservationModel");
 
 app.use(cors());
 app.use(express.json());
 
-app.get("/restaurants", async (request, response, next) => {
+app.get("/restaurants", async (request, response) => {
   const restaurants = await RestaurantModel.find({});
   const formattedRestaurants = restaurants.map((restaurant) =>
     formatRestaurant(restaurant)
@@ -18,7 +20,7 @@ app.get("/restaurants", async (request, response, next) => {
   response.status(200).send(formattedRestaurants);
 });
 
-app.get("/restaurants/:id", async (request, response, next) => {
+app.get("/restaurants/:id", async (request, response) => {
   const { id } = request.params;
   if (validId(id) === false) {
     return response.status(400).send({ message: "id provided is invalid" });
@@ -29,6 +31,27 @@ app.get("/restaurants/:id", async (request, response, next) => {
   }
   return response.status(200).send(formatRestaurant(restaurant));
 });
+
+app.get("/reservations", async (request, response) => {
+  const reservations = await ReservationModel.find({});
+  const formattedReservations = reservations.map((reservation) =>
+    formatReservation(reservation)
+  );
+  response.status(200).send(formattedReservations);
+});
+
+app.get("/reservations/:id", async (request, response) => {
+    const { id } = request.params;
+    if (!validId(id)) {
+        return response.status(400).send({message: "id provided is invalid"});
+    }
+    const reservation = await ReservationModel.findById({id});
+    if(reservation === null) {
+        return response.status(404).send({message: "id not found"});
+    }
+    return response.status(200).send(formattedReservations(reservation);
+});
+
 app.use(errors());
 
 module.exports = app;
