@@ -22,7 +22,7 @@ app.get("/restaurants", async (request, response) => {
 
 app.get("/restaurants/:id", async (request, response) => {
   const { id } = request.params;
-  if (validId(id) === false) {
+  if (!validId(id)) {
     return response.status(400).send({ message: "id provided is invalid" });
   }
   const restaurant = await RestaurantModel.findById(id);
@@ -45,11 +45,11 @@ app.get("/reservations/:id", async (request, response) => {
     if (!validId(id)) {
         return response.status(400).send({message: "id provided is invalid"});
     }
-    const reservation = await ReservationModel.findById({id});
+    const reservation = await ReservationModel.findById(id);
     if(reservation === null) {
         return response.status(404).send({message: "id not found"});
     }
-    return response.status(200).send(formattedReservations(reservation);
+    return response.status(200).send(formatReservation(reservation));
 });
 
 app.use(errors());
