@@ -7,7 +7,6 @@ const ReservationModel = require("./models/ReservationModel");
 const formatRestaurant = require("./utils/formatRestaurants");
 const formatReservation = require("./utils/formatReservation");
 const validId = require("./utils/validId");
-// const ReservationModel = require("./models/ReservationModel");
 
 app.use(cors());
 app.use(express.json());
@@ -41,15 +40,34 @@ app.get("/reservations", async (request, response) => {
 });
 
 app.get("/reservations/:id", async (request, response) => {
-    const { id } = request.params;
-    if (!validId(id)) {
-        return response.status(400).send({message: "id provided is invalid"});
-    }
-    const reservation = await ReservationModel.findById(id);
-    if(reservation === null) {
-        return response.status(404).send({message: "id not found"});
-    }
-    return response.status(200).send(formatReservation(reservation));
+  const { id } = request.params;
+  if (!validId(id)) {
+    return response.status(400).send({ message: "id provided is invalid" });
+  }
+  const reservation = await ReservationModel.findById(id);
+  if (reservation === null) {
+    return response.status(404).send({ message: "id not found" });
+  }
+  return response.status(200).send(formatReservation(reservation));
+});
+
+app.post("/restaurants/:id", async (request, response, next) => {
+  const bookReservation = new ReservationModel({
+    partySize: request.body.partySize,
+    date: { $date: request.body.date.$date },
+    userId: request.body.userId,
+    restaurantName: request.body.restaurantName,
+  });
+  try {
+    await bookReservation.save();
+    const reservations = await ReservationModel.find({});
+    const formattedReservations = reservations.map((reservation) =>
+      formatReservation(reservation)
+    );
+    response.status(201).send(formattedReservations);
+  } catch (error) {
+    next(error);
+  }
 });
 
 app.use(errors());
