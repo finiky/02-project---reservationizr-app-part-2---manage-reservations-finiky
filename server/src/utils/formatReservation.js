@@ -1,6 +1,6 @@
 const formatReservation = (reservation) => {
   return {
-    date: { $date: reservation.date.$date },
+    date: reservation.date,
     id: reservation._id,
     partySize: reservation.partySize,
     userId: reservation.userId,

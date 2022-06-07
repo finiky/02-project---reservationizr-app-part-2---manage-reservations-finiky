@@ -3,7 +3,7 @@ const { Schema } = mongoose;
 
 const ReservationModel = new Schema({
   restaurantName: { type: String, required: true },
-  date: { $date: { type: Date, required: true } },
+  date: { type: Date, required: true },
   userId: { type: String, required: true },
   partySize: { type: Number, required: true },
 });

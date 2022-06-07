@@ -52,12 +52,8 @@ app.get("/reservations/:id", async (request, response) => {
 });
 
 app.post("/restaurants/:id", async (request, response, next) => {
-  const bookReservation = new ReservationModel({
-    partySize: request.body.partySize,
-    date: { $date: request.body.date.$date },
-    userId: request.body.userId,
-    restaurantName: request.body.restaurantName,
-  });
+  const { body } = request;  
+  const bookReservation = new ReservationModel(body);
   try {
     await bookReservation.save();
     const reservations = await ReservationModel.find({});

@@ -1,7 +1,8 @@
 const request = require("supertest");
+const mongoose = require("mongoose");
 const app = require("./app");
 
-describe("GET/app", () => {
+describe("app", () => {
   test("aap.get('/restaurants'), should respond with a list of avaialbe restaurants", async () => {
     const expected = [
       {
@@ -95,7 +96,7 @@ describe("GET/app", () => {
       .expect(200);
   });
 
-  test("app.get('/reservations/:id), should return a singel reservation and a 200 ok status", async () => {
+  test("app.get('/reservations/:id), should return a single reservation and a 200 ok status", async () => {
     const expected = {
       date: "2023-11-17T06:30:00.000Z",
       id: "507f1f77bcf86cd799439011",
@@ -127,5 +128,40 @@ describe("GET/app", () => {
       .get("/reservations/507f1f77bcf86cd799439012")
       .expect((response) => expect(response.body).toEqual(expected))
       .expect(404);
+  });
+
+  test("app.post('/restaurant/616005cae3c8e880c13dc0b9'), should add a reservation object to the list of reservation and return all the reservations including the newly added reservation", async () => {
+    const body = {
+      partySize: 50,
+      date: "2025-11-17T06:30:00.000Z",
+      userId: "mock-id",
+      restaurantName: "Palace Grill",
+    };
+    let id;
+    await request(app)
+      .post("/restaurants/616005cae3c8e880c13dc0b9")
+      .send(body)
+      .set("Accept", "application/json")
+      .expect(201)
+      .expect((response) => {
+        id = response.body[response.body.length - 1].id;
+        expect(response.body[response.body.length - 1]).toEqual(
+          expect.objectContaining(body)
+        );
+        expect(id).toBeTruthy();
+        const isValidId = mongoose.Types.ObjectId.isValid(id);
+        expect(isValidId).toEqual(true);
+      });
+    // check the new document by retriving it
+    await request(app)
+      .get(`/reservations/${id}`)
+      .expect(200)
+      .expect((response) => {
+        const expected = {
+          id,
+          ...body,
+        };
+        expect(response.body).toEqual(expected);
+      });
   });
 });
