@@ -109,7 +109,7 @@ describe("GET/app", () => {
       .expect(200);
   });
 
-  test("app.get('/reservations/:id), should return {message: 'id provided is invalid'} and a 400 ok status", async () => {
+  test("app.get('/reservations/invalid-id), should return {message: 'id provided is invalid'} and a 400 ok status", async () => {
     const expected = {
       message: "id provided is invalid",
     };
