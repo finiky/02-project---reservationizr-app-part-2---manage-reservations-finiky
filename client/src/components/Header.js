@@ -6,7 +6,7 @@ import LoginButton from "./LoginButton";
 const Header = () => {
   return (
     <header className="header">
-      <div className="container">
+      <div className="headerContainer">
         <Link to="/" className="header-title">
           <img src={Logo} alt="" width="300" />
         </Link>

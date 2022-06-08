@@ -12,7 +12,7 @@ const RestaurantList = () => {
     fetchData();
   }, []);
   return (
-    <>
+    <div className="main">
       <h1 className="heading">Restaurants</h1>
       <ul className="restaurants">
         {restaurants.map(({ image, name, description, id }) => {
@@ -24,16 +24,15 @@ const RestaurantList = () => {
               </div>
               <h2 className="name">{name}</h2>
               <p className="description">{description}</p>
-              <button className="button">
-                <a className="link" href={link}>
-                  Reserve Now &rarr;
-                </a>
-              </button>
+
+              <a className="link" href={link}>
+                Reserve now &rarr;
+              </a>
             </li>
           );
         })}
       </ul>
-    </>
+    </div>
   );
 };
 
