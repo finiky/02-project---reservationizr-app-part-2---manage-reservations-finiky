@@ -52,7 +52,7 @@ app.get("/reservations/:id", async (request, response) => {
 });
 
 app.post("/restaurants/:id", async (request, response, next) => {
-  const { body } = request;  
+  const { body } = request;
   const bookReservation = new ReservationModel(body);
   try {
     await bookReservation.save();

@@ -145,6 +145,7 @@ describe("app", () => {
       .expect(201)
       .expect((response) => {
         id = response.body[response.body.length - 1].id;
+        expect(response.body).toContainEqual(expect.objectContaining(body));
         expect(response.body[response.body.length - 1]).toEqual(
           expect.objectContaining(body)
         );
