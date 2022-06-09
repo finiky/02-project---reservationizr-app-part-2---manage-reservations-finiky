@@ -16,7 +16,7 @@ const RestaurantList = () => {
       <h1 className="heading">Restaurants</h1>
       <ul className="restaurants">
         {restaurants.map(({ image, name, description, id }) => {
-          const link = `http://localhost:5001/restaurants/${id}`;
+          const link = `http://localhost:3000/restaurants/${id}`;
           return (
             <li key={id} className="restaurant">
               <div className="imageContainer">

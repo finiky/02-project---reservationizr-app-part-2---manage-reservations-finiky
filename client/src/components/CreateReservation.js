@@ -5,8 +5,44 @@ import { useAuth0 } from "@auth0/auth0-react";
 import "react-datepicker/dist/react-datepicker.css";
 import "./CreateReservation.css";
 
-const CreateReservation = ({ restaurantName }) => {
-  return <></>;
+const CreateReservation = ({ restaurantName, id }) => {
+  const [guests, setGuests] = useState(0);
+  const [date, setDate] = useState(new Date());
+  const navigate = useNavigate();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const reservation = { guests, date };
+    await fetch(`http://localhost:5001/restaurants/${id}`, {
+      method: "POST",
+      headers: { "Content-Type": "application.json" },
+      body: JSON.stringify(reservation),
+    });
+    navigate("/reservations");
+  };
+  return (
+    <>
+      <form onSubmit={handleSubmit}>
+        <label htmlFor="guests">Number of guests</label>
+        <input
+          id="guests"
+          type="text"
+          value={guests}
+          onChange={(e) => setGuests(e.target.value)}
+          required
+        />
+        <label htmlFor="date">Date</label>
+        <DatePicker
+          id="date"
+          selected={date}
+          onChange={(date) => setDate(date)}
+          showTimeSelect
+          dateFormat="dd/MM/yyyy, h: mm aa"
+          required
+        />
+        <button>Submit</button>
+      </form>
+    </>
+  );
 };
 
 export default CreateReservation;
