@@ -7,10 +7,14 @@ const ReservationModel = require("./models/ReservationModel");
 const formatRestaurant = require("./utils/formatRestaurants");
 const formatReservation = require("./utils/formatReservation");
 const validId = require("./utils/validId");
+const { auth } = require("express-oauth2-jwt-bearer");
 
 app.use(cors());
 app.use(express.json());
-
+const checkJwt = auth({
+  audience: "https://booking.com",
+  issuer: "https://dev-knvdm70u.us.auth0.com/",
+});
 app.get("/restaurants", async (request, response) => {
   const restaurants = await RestaurantModel.find({});
   const formattedRestaurants = restaurants.map((restaurant) =>
@@ -51,20 +55,37 @@ app.get("/reservations/:id", async (request, response) => {
   return response.status(200).send(formatReservation(reservation));
 });
 
-app.post("/restaurants/:id", async (request, response, next) => {
-  const { body } = request;
-  const bookReservation = new ReservationModel(body);
-  try {
-    await bookReservation.save();
-    const reservations = await ReservationModel.find({});
-    const formattedReservations = reservations.map((reservation) =>
-      formatReservation(reservation)
-    );
-    response.status(201).send(formattedReservations);
-  } catch (error) {
-    next(error);
+app.post(
+  "/restaurants/:id", checkJwt,
+  celebrate({
+    [Segments.BODY]: Joi.object().keys({
+      restaurantName: Joi.string().required(),
+      partySize: Joi.number().min(1).required(),
+      date: Joi.date().greater("now").required(),
+    }),
+  }),
+  async (request, response, next) => {
+    try {
+      const { body, auth } = request;
+      const reservationBody = {
+        userId: auth.payload.sub,
+        ...body,
+      };
+      const bookReservation = new ReservationModel(reservationBody);
+      await bookReservation.save();
+      const reservations = await ReservationModel.find({});
+      const formattedReservations = reservations.map((reservation) =>
+        formatReservation(reservation)
+      );
+      response.status(201).send(formattedReservations);
+    } catch (error) {
+      if (error.name === "ValidationError") {
+        error.status = 400;
+      }
+      next(error);
+    }
   }
-});
+);
 
 app.use(errors());
 

@@ -165,4 +165,17 @@ describe("app", () => {
         expect(response.body).toEqual(expected);
       });
   });
+
+  test("app.post('/restaurant/616005cae3c8e880c13dc0b9'), should respond with a Validation error and a 400 status code when the user fails to send required data", async () => {
+    const body = {
+      date: "2025-11-17T06:30:00.000Z",
+      userId: "mock-id",
+      restaurantName: "Palace Grill",
+    };
+    await request(app)
+      .post("/restaurants/616005cae3c8e880c13dc0b9")
+      .send(body)
+      .set("Accept", "application/json")
+      .expect(400);
+  });
 });
