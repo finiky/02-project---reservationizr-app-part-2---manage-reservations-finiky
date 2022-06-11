@@ -14,10 +14,12 @@ const ReservationList = () => {
     fetchData();
   }, []);
   if (reservations.length === 0) {
-    return <>
-      <p>You don't have any reservations</p>
-      <a href="http://localhost:3000">View the restaurants</a>
-    </>
+    return (
+      <>
+        <p>You don't have any reservations</p>
+        <a href="http://localhost:3000">View the restaurants</a>
+      </>
+    );
   }
   return (
     <>
@@ -28,9 +30,11 @@ const ReservationList = () => {
             <li key={id}>
               <h2>{restaurantName}</h2>
               <p>{formatDate(date)}</p>
-              <a href={`http://localhost:3000/reservations/${id}`}>View details</a>
+              <a href={`http://localhost:3000/reservations/${id}`}>
+                View details
+              </a>
             </li>
-          )
+          );
         })}
       </ul>
     </>

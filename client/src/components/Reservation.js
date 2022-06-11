@@ -15,14 +15,19 @@ const Reservation = () => {
     };
     fetchReservation();
   }, []);
-
+  
+  if (!("restaurantName" in reservation)) {
+    return (
+      <p>Sorry! We can't find that reservation</p>
+    );
+  }
   return (
     <>
       <h1>Reservation</h1>
       <h2>{reservation.restaurantName}</h2>
       <p>{reservation.date}</p>
       <p><b>Party Size:</b> {reservation.partySize}</p>
-      <a href="http://localhost:5001/reservations">Back to reservations</a>
+      <a href="http://localhost:3000/reservations">Back to reservations</a>
     </>
   );
 };
