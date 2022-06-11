@@ -4,7 +4,6 @@ import "./Reservation.css";
 
 const Reservation = () => {
   const { id } = useParams();
-
   return (
     <>
       <h1>Reservation</h1>
