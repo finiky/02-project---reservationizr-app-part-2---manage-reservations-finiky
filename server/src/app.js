@@ -2,19 +2,21 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const { celebrate, Joi, errors, Segments } = require("celebrate");
+const { auth } = require("express-oauth2-jwt-bearer");
 const RestaurantModel = require("./models/RestaurantModel");
 const ReservationModel = require("./models/ReservationModel");
 const formatRestaurant = require("./utils/formatRestaurants");
 const formatReservation = require("./utils/formatReservation");
 const validId = require("./utils/validId");
-const { auth } = require("express-oauth2-jwt-bearer");
 
-app.use(cors());
-app.use(express.json());
 const checkJwt = auth({
   audience: "https://booking.com",
   issuer: "https://dev-knvdm70u.us.auth0.com/",
 });
+
+app.use(cors());
+app.use(express.json());
+
 app.get("/restaurants", async (request, response) => {
   const restaurants = await RestaurantModel.find({});
   const formattedRestaurants = restaurants.map((restaurant) =>
@@ -35,28 +37,40 @@ app.get("/restaurants/:id", async (request, response) => {
   return response.status(200).send(formatRestaurant(restaurant));
 });
 
-app.get("/reservations", async (request, response) => {
-  const reservations = await ReservationModel.find({});
-  const formattedReservations = reservations.map((reservation) =>
-    formatReservation(reservation)
-  );
-  response.status(200).send(formattedReservations);
+app.get("/reservations", checkJwt, async (request, response) => {
+  const { auth } = request;
+  if (auth.payload.sub) {
+    const reservations = await ReservationModel.find({
+      userId: auth.payload.sub,
+    });
+    const formattedReservations = reservations.map((reservation) =>
+      formatReservation(reservation)
+    );
+    response.status(200).send(formattedReservations);
+  }
 });
 
-app.get("/reservations/:id", async (request, response) => {
+app.get("/reservations/:id", checkJwt, async (request, response) => {
   const { id } = request.params;
-  if (!validId(id)) {
-    return response.status(400).send({ message: "id provided is invalid" });
+  const { auth } = request;
+  if (auth.payload.sub) {
+    if (!validId(id)) {
+      return response.status(400).send({ message: "id provided is invalid" });
+    }
+    const reservation = await ReservationModel.findById(id);
+    if (reservation.userId === auth.payload.sub) {
+      if (reservation === null) {
+        return response.status(404).send({ message: "id not found" });
+      }
+      return response.status(200).send(formatReservation(reservation));
+    }
+    // add an else for if the user is not the correct user
   }
-  const reservation = await ReservationModel.findById(id);
-  if (reservation === null) {
-    return response.status(404).send({ message: "id not found" });
-  }
-  return response.status(200).send(formatReservation(reservation));
 });
 
 app.post(
-  "/restaurants/:id", checkJwt,
+  "/restaurants/:id",
+  checkJwt,
   celebrate({
     [Segments.BODY]: Joi.object().keys({
       restaurantName: Joi.string().required(),
