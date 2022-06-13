@@ -11,7 +11,7 @@ const validId = require("./utils/validId");
 
 const checkJwt = auth({
   audience: "https://booking.com",
-  issuer: "https://dev-knvdm70u.us.auth0.com/",
+  issuerBaseURL: "https://dev-knvdm70u.us.auth0.com",
 });
 
 app.use(cors());
@@ -41,7 +41,7 @@ app.get("/reservations", checkJwt, async (request, response) => {
   const { auth } = request;
   if (auth.payload.sub) {
     const reservations = await ReservationModel.find({
-      userId: auth.payload.sub,
+      userId: auth.payload.sub
     });
     const formattedReservations = reservations.map((reservation) =>
       formatReservation(reservation)
@@ -87,7 +87,7 @@ app.post(
       };
       const bookReservation = new ReservationModel(reservationBody);
       await bookReservation.save();
-      const reservations = await ReservationModel.find({});
+      const reservations = await ReservationModel.find({userId: auth.payload.sub});
       const formattedReservations = reservations.map((reservation) =>
         formatReservation(reservation)
       );
