@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import { useAuth0 } from "@auth0/auth0-react";
 import "react-datepicker/dist/react-datepicker.css";
 import "./CreateReservation.css";
-
 const CreateReservation = ({ restaurantName, id }) => {
   const [partySize, setPartySize] = useState(0);
   const [date, setDate] = useState(new Date());
@@ -13,12 +12,11 @@ const CreateReservation = ({ restaurantName, id }) => {
   const [isError, setIsError] = useState(false);
   const [errorStatus, setErrorStatus] = useState(false);
   const { getAccessTokenSilently } = useAuth0();
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const accessToken = await getAccessTokenSilently();
     const reservation = { partySize, date, restaurantName };
-    const response = fetch(`http://localhost:5001/restaurants/${id}`, {
+    const response = await fetch(`http://localhost:5001/restaurants/${id}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -27,10 +25,10 @@ const CreateReservation = ({ restaurantName, id }) => {
       body: JSON.stringify(reservation),
     });
 
-    if(!response.ok) {
+    if (!(response.ok)) {
       setIsError(true);
       setErrorStatus(response.status);
-    }else {
+    } else {
       setIsLoading(false);
       navigate("/reservations");
     }
@@ -41,9 +39,7 @@ const CreateReservation = ({ restaurantName, id }) => {
         <p className="no-reservation">
           Error creating a reservation (error status {errorStatus})
         </p>
-        <Link to={`/restaurants/${id}`}>
-          Return to restaurant
-        </Link>
+        <a href={`http://localhost:3000/restaurants/${id}`}>Return to restaurant</a>
       </>
     );
   }
@@ -64,7 +60,7 @@ const CreateReservation = ({ restaurantName, id }) => {
           selected={date}
           onChange={(date) => setDate(date)}
           showTimeSelect
-          dateFormat="dd/MM/yyyy, h: mm aa"
+          dateFormat="MM/dd/yyyy, hh:mm aa"
           required
         />
         <button disabled={isLoading}>Submit</button>

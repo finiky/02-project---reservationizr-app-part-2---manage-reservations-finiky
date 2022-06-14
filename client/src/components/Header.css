@@ -2,7 +2,6 @@
   background: #f0ab8d;
   padding: 1rem 0;
   text-align: center;
-  margin-bottom: 3rem;
 }
 
 .header-title {
@@ -46,39 +45,18 @@
 }
 
 @media only screen and (min-width: 33.76rem) {
-  /* .header .container {
+  .headerContainer {
     display: grid;
     grid-template-columns: 10rem auto;
-    align-items: center;
-  } */
-
+    justify-content: center;
+    grid-gap: 10rem;
+  }
   .nav {
     width: 100%;
     display: grid;
     grid-template-columns: min-content min-content min-content;
-    gap: 1rem;
+    grid-gap: 2rem;
     place-items: center;
     justify-content: center;
-  }
-
-  /* .nav {
-    justify-content: end;
-  } */
-}
-
-@media only screen and (min-width: 40rem) {
-  .header .container {
-    display: grid;
-    grid-template-columns: 10rem auto;
-    align-items: center;
-    max-width: 50rem;
-  }
-
-  .nav {
-    justify-content: end;
-  }
-
-  .nav-item {
-    margin-left: 1rem;
   }
 }

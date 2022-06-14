@@ -12,9 +12,6 @@
   max-width: 30rem;
   height: auto;
 }
-.header {
-  margin-bottom: 0;
-}
 .heading {
   padding-top: 3rem;
 }
@@ -33,7 +30,7 @@
   grid-row-gap: 1rem;
 }
 .container {
-    padding: 0 1.5rem 0 1.5rem;
+  padding: 0 1.5rem 0 1.5rem;
 }
 .restaurants {
   grid-row-gap: 2rem;
@@ -66,5 +63,6 @@
 }
 
 @media only screen and (min-width: 33.76rem) {
-    
+  
+
 }

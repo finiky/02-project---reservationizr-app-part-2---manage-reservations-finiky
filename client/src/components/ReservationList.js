@@ -1,18 +1,25 @@
 import "./ReservationList.css";
 import { formatDate } from "../utils/formatDate";
 import React, { useState, useEffect } from "react";
-
+import { useAuth0 } from "@auth0/auth0-react";
 const ReservationList = () => {
   const [reservations, setReservations] = useState([]);
+  const { getAccessTokenSilently } = useAuth0();
   useEffect(() => {
     const fetchData = async () => {
+      const accessToken = await getAccessTokenSilently();
       const fetchUrl = "http://localhost:5001/reservations";
-      const response = await fetch(fetchUrl);
+      const response = await fetch(fetchUrl, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
       const data = await response.json();
       setReservations(data);
     };
     fetchData();
-  }, []);
+  }, [getAccessTokenSilently]);
   if (reservations.length === 0) {
     return (
       <>

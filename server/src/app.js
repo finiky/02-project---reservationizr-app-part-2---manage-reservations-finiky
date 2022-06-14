@@ -10,8 +10,8 @@ const formatReservation = require("./utils/formatReservation");
 const validId = require("./utils/validId");
 
 const checkJwt = auth({
-  audience: "https://booking.com",
-  issuerBaseURL: "https://dev-knvdm70u.us.auth0.com",
+  audience: 'https://booking.com',
+  issuerBaseURL: 'https://dev-knvdm70u.us.auth0.com/',
 });
 
 app.use(cors());
@@ -27,7 +27,7 @@ app.get("/restaurants", async (request, response) => {
 
 app.get("/restaurants/:id", async (request, response) => {
   const { id } = request.params;
-  if (!validId(id)) {
+  if (validId(id) === false) {
     return response.status(400).send({ message: "id provided is invalid" });
   }
   const restaurant = await RestaurantModel.findById(id);
@@ -39,15 +39,11 @@ app.get("/restaurants/:id", async (request, response) => {
 
 app.get("/reservations", checkJwt, async (request, response) => {
   const { auth } = request;
-  if (auth.payload.sub) {
-    const reservations = await ReservationModel.find({
-      userId: auth.payload.sub
-    });
-    const formattedReservations = reservations.map((reservation) =>
-      formatReservation(reservation)
-    );
-    response.status(200).send(formattedReservations);
-  }
+  const reservations = await ReservationModel.find({userId: auth.payload.sub});
+  const formattedReservations = reservations.map((reservation) =>
+    formatReservation(reservation)
+  );
+  response.status(200).send(formattedReservations);
 });
 
 app.get("/reservations/:id", checkJwt, async (request, response) => {
@@ -59,12 +55,16 @@ app.get("/reservations/:id", checkJwt, async (request, response) => {
     }
     const reservation = await ReservationModel.findById(id);
     if (reservation.userId === auth.payload.sub) {
+      console.log(reservation.userId);
+      console.log(auth.payload.sub);
       if (reservation === null) {
         return response.status(404).send({ message: "id not found" });
       }
       return response.status(200).send(formatReservation(reservation));
     }
-    // add an else for if the user is not the correct user
+    else {
+      return response.status(200).send({message: "Access denied"});
+    }
   }
 });
 
@@ -75,7 +75,7 @@ app.post(
     [Segments.BODY]: Joi.object().keys({
       restaurantName: Joi.string().required(),
       partySize: Joi.number().min(1).required(),
-      date: Joi.date().greater("now").required(),
+      date: Joi.date().greater('now').required(),
     }),
   }),
   async (request, response, next) => {
@@ -87,11 +87,7 @@ app.post(
       };
       const bookReservation = new ReservationModel(reservationBody);
       await bookReservation.save();
-      const reservations = await ReservationModel.find({userId: auth.payload.sub});
-      const formattedReservations = reservations.map((reservation) =>
-        formatReservation(reservation)
-      );
-      response.status(201).send(formattedReservations);
+      response.status(201).send(bookReservation);
     } catch (error) {
       if (error.name === "ValidationError") {
         error.status = 400;
