@@ -127,7 +127,7 @@ describe("app", () => {
     const body = {
       partySize: 2,
       date: "2023-12-03T07:00:00.000Z",
-      restaurantName: "Green Curry"
+      restaurantName: "Green Curry",
     };
 
     const response = await request(app)
@@ -147,7 +147,7 @@ describe("app", () => {
       .expect((response) => {
         const expected = {
           id,
-          userId, 
+          userId,
           ...body,
         };
         expect(response.body).toEqual(expected);

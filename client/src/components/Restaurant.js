@@ -15,13 +15,19 @@ const Restaurant = () => {
     fetchData();
   }, [id]);
   return (
-    <div>
-      <div className="imageContainer">
-      <img className="image" src={restaurant.image} alt={restaurant.name}/>
-      </div>
-      <div className="information">
-      <h2 className="name singleRes">{restaurant.name}</h2>
-      <p className="description">{restaurant.description}</p>
+    <div className="singleResContainer">
+      <div className="image_information">
+        <div className="imageContainer1">
+          <img
+            className="image1"
+            src={restaurant.image}
+            alt={restaurant.name}
+          />
+        </div>
+        <div className="information1">
+          <h2 className="name1">{restaurant.name}</h2>
+          <p className="description1">{restaurant.description}</p>
+        </div>
       </div>
       <CreateReservation restaurantName={restaurant.name} id={restaurant.id} />
     </div>

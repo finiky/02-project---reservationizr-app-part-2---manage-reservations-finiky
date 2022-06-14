@@ -28,9 +28,11 @@ const RestaurantList = () => {
                 <img className="image" src={image} alt={name}></img>
               </div>
               <div className="information">
-              <h2 className="name">{name}</h2>
-              <p className="description">{description}</p>
-              <Link to={`/restaurants/${id}`} className="link">Reserve now &rarr;</Link>
+                <h2 className="name">{name}</h2>
+                <p className="description">{description}</p>
+                <Link to={`/restaurants/${id}`} className="link">
+                  Reserve now &rarr;
+                </Link>
               </div>
             </li>
           );

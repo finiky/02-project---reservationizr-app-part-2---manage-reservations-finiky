@@ -25,7 +25,7 @@ const CreateReservation = ({ restaurantName, id }) => {
       body: JSON.stringify(reservation),
     });
 
-    if (!(response.ok)) {
+    if (!response.ok) {
       setIsError(true);
       setErrorStatus(response.status);
     } else {
@@ -39,7 +39,9 @@ const CreateReservation = ({ restaurantName, id }) => {
         <p className="no-reservation">
           Error creating a reservation (error status {errorStatus})
         </p>
-        <a href={`http://localhost:3000/restaurants/${id}`}>Return to restaurant</a>
+        <a href={`http://localhost:3000/restaurants/${id}`}>
+          Return to restaurant
+        </a>
       </>
     );
   }
@@ -48,27 +50,29 @@ const CreateReservation = ({ restaurantName, id }) => {
       <h3 className="reserveRes">Reserve {restaurantName}</h3>
       <form className="form" onSubmit={handleSubmit}>
         <div className="guests">
-        <label htmlFor="guests">Number of guests</label>
-        <input
-          id="guests"
-          type="text"
-          value={partySize}
-          onChange={(e) => setPartySize(e.target.value)}
-          required
-        />
+          <label htmlFor="guests">Number of guests</label>
+          <input
+            id="guests"
+            type="text"
+            value={partySize}
+            onChange={(e) => setPartySize(e.target.value)}
+            required
+          />
         </div>
         <div className="date">
-        <label htmlFor="date">Date</label>
-        <DatePicker
-          id="date"
-          selected={date}
-          onChange={(date) => setDate(date)}
-          showTimeSelect
-          dateFormat="MM/dd/yyyy, hh:mm aa"
-          required
-        />
+          <label htmlFor="date">Date</label>
+          <DatePicker
+            id="date"
+            selected={date}
+            onChange={(date) => setDate(date)}
+            showTimeSelect
+            dateFormat="MM/dd/yyyy, hh:mm aa"
+            required
+          />
         </div>
-        <button className="submit" disabled={isLoading}>Submit</button>
+        <button className="submit" disabled={isLoading}>
+          Submit
+        </button>
       </form>
     </>
   );
