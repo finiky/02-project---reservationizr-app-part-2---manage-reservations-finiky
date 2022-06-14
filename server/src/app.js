@@ -10,8 +10,8 @@ const formatReservation = require("./utils/formatReservation");
 const validId = require("./utils/validId");
 
 const checkJwt = auth({
-  audience: 'https://booking.com',
-  issuerBaseURL: 'https://dev-knvdm70u.us.auth0.com/',
+  audience: "https://booking.com",
+  issuerBaseURL: "https://dev-knvdm70u.us.auth0.com/",
 });
 
 app.use(cors());
@@ -39,7 +39,9 @@ app.get("/restaurants/:id", async (request, response) => {
 
 app.get("/reservations", checkJwt, async (request, response) => {
   const { auth } = request;
-  const reservations = await ReservationModel.find({userId: auth.payload.sub});
+  const reservations = await ReservationModel.find({
+    userId: auth.payload.sub
+  });
   const formattedReservations = reservations.map((reservation) =>
     formatReservation(reservation)
   );
@@ -54,17 +56,13 @@ app.get("/reservations/:id", checkJwt, async (request, response) => {
       return response.status(400).send({ message: "id provided is invalid" });
     }
     const reservation = await ReservationModel.findById(id);
-    if (reservation.userId === auth.payload.sub) {
-      console.log(reservation.userId);
-      console.log(auth.payload.sub);
-      if (reservation === null) {
-        return response.status(404).send({ message: "id not found" });
-      }
-      return response.status(200).send(formatReservation(reservation));
+
+    if (reservation === null) {
+      return response.status(404).send({ message: "id not found" });
     }
-    else {
-      return response.status(200).send({message: "Access denied"});
-    }
+    return response.status(200).send(formatReservation(reservation));
+  } else {
+    return response.status(200).send({ message: "Access denied" });
   }
 });
 
@@ -75,7 +73,7 @@ app.post(
     [Segments.BODY]: Joi.object().keys({
       restaurantName: Joi.string().required(),
       partySize: Joi.number().min(1).required(),
-      date: Joi.date().greater('now').required(),
+      date: Joi.date().greater("now").required(),
     }),
   }),
   async (request, response, next) => {
@@ -85,9 +83,10 @@ app.post(
         userId: auth.payload.sub,
         ...body,
       };
+      console.log(reservationBody);
       const bookReservation = new ReservationModel(reservationBody);
       await bookReservation.save();
-      response.status(201).send(bookReservation);
+      response.status(201).send(formatReservation(bookReservation));
     } catch (error) {
       if (error.name === "ValidationError") {
         error.status = 400;
