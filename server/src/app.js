@@ -40,7 +40,7 @@ app.get("/restaurants/:id", async (request, response) => {
 app.get("/reservations", checkJwt, async (request, response) => {
   const { auth } = request;
   const reservations = await ReservationModel.find({
-    userId: auth.payload.sub
+    userId: auth.payload.sub,
   });
   const formattedReservations = reservations.map((reservation) =>
     formatReservation(reservation)
@@ -60,7 +60,9 @@ app.get("/reservations/:id", checkJwt, async (request, response) => {
     if (reservation === null) {
       return response.status(404).send({ message: "id not found" });
     }
-    return response.status(200).send(formatReservation(reservation));
+    if (reservation.userId === auth.payload.sub) {
+      return response.status(200).send(formatReservation(reservation));
+    }
   } else {
     return response.status(200).send({ message: "Access denied" });
   }
