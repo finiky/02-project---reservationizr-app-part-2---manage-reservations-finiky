@@ -26,6 +26,14 @@ body {
   display: grid;
   grid-template-columns: 1fr;
 }
+.information {
+  padding-left: 0.5rem;
+}
+.name,
+.description,
+.link {
+  margin: 0;
+}
 .main,
 .container {
   background-color: whitesmoke;
@@ -42,16 +50,12 @@ body {
 }
 .imageContainer {
   width: 100%;
-  padding: 1rem;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
 }
 .image {
   width: 100%;
   height: auto;
-}
-.name,
-.description,
-.link {
-  margin: 0 0 0 1rem;
 }
 .link {
   justify-self: left;
@@ -61,7 +65,6 @@ body {
   color: white;
   margin-top: 2rem;
 }
-
 @media only screen and (min-width: 34rem) {
   body {
     max-width: 80rem;

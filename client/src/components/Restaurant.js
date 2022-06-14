@@ -16,9 +16,13 @@ const Restaurant = () => {
   }, [id]);
   return (
     <div>
-      <img src={restaurant.image} alt={restaurant.name}/>
-      <h2>{restaurant.name}</h2>
-      <p>{restaurant.description}</p>
+      <div className="imageContainer">
+      <img className="image" src={restaurant.image} alt={restaurant.name}/>
+      </div>
+      <div className="information">
+      <h2 className="name singleRes">{restaurant.name}</h2>
+      <p className="description">{restaurant.description}</p>
+      </div>
       <CreateReservation restaurantName={restaurant.name} id={restaurant.id} />
     </div>
   );

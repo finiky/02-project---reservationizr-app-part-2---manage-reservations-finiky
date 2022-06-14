@@ -45,7 +45,9 @@ const CreateReservation = ({ restaurantName, id }) => {
   }
   return (
     <>
-      <form onSubmit={handleSubmit}>
+      <h3 className="reserveRes">Reserve {restaurantName}</h3>
+      <form className="form" onSubmit={handleSubmit}>
+        <div className="guests">
         <label htmlFor="guests">Number of guests</label>
         <input
           id="guests"
@@ -54,6 +56,8 @@ const CreateReservation = ({ restaurantName, id }) => {
           onChange={(e) => setPartySize(e.target.value)}
           required
         />
+        </div>
+        <div className="date">
         <label htmlFor="date">Date</label>
         <DatePicker
           id="date"
@@ -63,7 +67,8 @@ const CreateReservation = ({ restaurantName, id }) => {
           dateFormat="MM/dd/yyyy, hh:mm aa"
           required
         />
-        <button disabled={isLoading}>Submit</button>
+        </div>
+        <button className="submit" disabled={isLoading}>Submit</button>
       </form>
     </>
   );
