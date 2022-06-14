@@ -8,16 +8,18 @@
 .link {
   text-decoration: none;
 }
-.body {
-  max-width: 30rem;
+body {
   height: auto;
+  margin-bottom: 1rem;
+  background-color: whitesmoke;
 }
 .heading {
   padding-top: 3rem;
 }
 .main,
 .restaurants,
-.restaurant {
+.restaurant,
+.information {
   width: 100%;
   height: auto;
   margin: 0 auto;
@@ -28,9 +30,7 @@
 .container {
   background-color: whitesmoke;
   grid-row-gap: 1rem;
-}
-.container {
-  padding: 0 1.5rem 0 1.5rem;
+  margin: 0 auto;
 }
 .restaurants {
   grid-row-gap: 2rem;
@@ -41,8 +41,8 @@
   grid-row-gap: 0.5rem;
 }
 .imageContainer {
-  padding: 1.5rem;
-  padding-bottom: 0;
+  width: 100%;
+  padding: 1rem;
 }
 .image {
   width: 100%;
@@ -51,7 +51,7 @@
 .name,
 .description,
 .link {
-  margin: 0 0 0 1.5rem;
+  margin: 0 0 0 1rem;
 }
 .link {
   justify-self: left;
@@ -62,7 +62,18 @@
   margin-top: 2rem;
 }
 
-@media only screen and (min-width: 33.76rem) {
-  
+@media only screen and (min-width: 34rem) {
+  body {
+    max-width: 80rem; 
+    margin-bottom: 2rem;
+  }
+  .restaurant {
+    grid-template-columns: 15rem auto;
+  }
+  .information {
+    margin-top: 0.5rem;
+    grid-gap: 1rem;
+    padding-right: 1rem;
+  }
 
 }
