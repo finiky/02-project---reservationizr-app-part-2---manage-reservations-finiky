@@ -27,10 +27,12 @@ const Reservation = () => {
   if (!("restaurantName" in reservation)) {
     return (
       <>
-        <p claasName="notfound">Sorry! We can't find that reservation</p>
+      <div className="noReser">
+        <p claasName="notFound">Sorry! We can't find that reservation</p>
         <a className="linkReser" href="http://localhost:3000/reservations">
           &larr; Back to reservations
         </a>
+        </div>
       </>
     );
   }

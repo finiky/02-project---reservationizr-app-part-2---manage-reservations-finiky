@@ -21,3 +21,10 @@
   text-decoration: none;
   font-size: 1.1rem;
 }
+.noReser {
+  width: 100%;
+}
+.notFound {
+  color: red;
+  margin-bottom: 4rem;
+}
