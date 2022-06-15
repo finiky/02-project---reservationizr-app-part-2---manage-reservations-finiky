@@ -85,6 +85,7 @@ describe("app", () => {
 
     await request(app)
       .get("/reservations")
+      .set('Accept', 'application/json')
       .expect((response) => expect(response.body).toEqual(expected))
       .expect(200);
   });
@@ -98,6 +99,7 @@ describe("app", () => {
     };
     await request(app)
       .get("/reservations/507f1f77bcf86cd799439011")
+      .set('Accept', 'application/json')
       .expect((response) => expect(response.body).toEqual(expected))
       .expect(200);
   });
@@ -108,6 +110,7 @@ describe("app", () => {
     };
     await request(app)
       .get("/reservations/invalid-id")
+      .set('Accept', 'application/json')
       .expect((response) => expect(response.body).toEqual(expected))
       .expect(400);
   });
@@ -132,6 +135,7 @@ describe("app", () => {
     const response = await request(app)
       .post("/restaurants/616005cae3c8e880c13dc0b9")
       .send(body)
+      .set('Accept', 'application/json')
       .expect(201)
       .expect((response) => {
         expect(response.body).toEqual(expect.objectContaining(body));
@@ -157,14 +161,14 @@ describe("app", () => {
 
   test("app.post('/restaurant/616005cae3c8e880c13dc0b9'), should respond with a Validation failed and a 400 status code when the user fails to send required data", async () => {
     const body = {
-      date: "2025-11-17T06:30:00.000Z",
+      date: "2020-11-17T06:30:00.000Z",
       userId: "mock-id",
       restaurantName: "Palace Grill",
     };
     await request(app)
       .post("/restaurants/616005cae3c8e880c13dc0b9")
       .send(body)
-      .set("Accept", "application/json")
+      .set('Accept', 'application/json')
       .expect(400);
   });
 });
