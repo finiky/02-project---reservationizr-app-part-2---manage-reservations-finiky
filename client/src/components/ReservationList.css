@@ -27,8 +27,11 @@ body {
   font-size: 1.2rem;
   color: grey;
 }
-.linkReservation {
+.linkReservation, .linkToRests {
   color: red;
+  font-size: 1.2rem;
+}
+.noReservation {
   font-size: 1.2rem;
 }
 

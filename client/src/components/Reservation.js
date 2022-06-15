@@ -14,7 +14,7 @@ const Reservation = () => {
       const response = await fetch(fetchUrl, {
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${accessToken}`,
+          Authorization: `Bearer ${accessToken}`,
         },
       });
       const data = await response.json();
@@ -34,20 +34,20 @@ const Reservation = () => {
       </>
     );
   }
-  
+
   return (
     <>
-    <div className="infoReser">
-      <h1 className="headReser">Reservation</h1>
-      <h2 className="nameReser">{reservation.restaurantName}</h2>
-      <p className="dateReser">{reservation.date}</p>
-      <p className="partySizeReser">
-        <b>Party Size:</b> {reservation.partySize}
-      </p>
+      <div className="infoReser">
+        <h1 className="headReser">Reservation</h1>
+        <h2 className="nameReser">{reservation.restaurantName}</h2>
+        <p className="dateReser">{reservation.date}</p>
+        <p className="partySizeReser">
+          <b>Party Size:</b> {reservation.partySize}
+        </p>
       </div>
       <a className="linkReser" href="http://localhost:3000/reservations">
-      &larr; Back to reservations
-    </a>
+        &larr; Back to reservations
+      </a>
     </>
   );
 };

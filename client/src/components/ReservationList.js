@@ -12,7 +12,7 @@ const ReservationList = () => {
       const response = await fetch(fetchUrl, {
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${accessToken}`,
+          Authorization: `Bearer ${accessToken}`,
         },
       });
       const data = await response.json();
@@ -23,6 +23,7 @@ const ReservationList = () => {
   if (reservations.length === 0) {
     return (
       <>
+        <h1 className="upcomingRes">Upcoming reservations</h1>
         <p className="noReservation">You don't have any reservations</p>
         <a className="linkToRests" href="http://localhost:3000">
           View the restaurants
