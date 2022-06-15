@@ -91,14 +91,16 @@ describe("app", () => {
   });
 
   test("app.get('reservations/otheruser-reservation ID'), should return the user is trying to access a reservation they did not create and a 403 status", async () => {
-    const expected = {error: "user does not have permission to access this reservation" };
+    const expected = {
+      error: "user does not have permission to access this reservation",
+    };
     await request(app)
       .get("/reservations/61679189b54f48aa6599a7fd")
       .set("Accept", "application/json")
       .expect(403)
       .expect((response) => {
-        expect(response.body).toEqual(expected)
-      })
+        expect(response.body).toEqual(expected);
+      });
   });
 
   test("app.get('/reservations/:id), should return a single reservation and a 200 ok status", async () => {
