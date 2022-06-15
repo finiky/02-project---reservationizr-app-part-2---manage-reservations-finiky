@@ -39,36 +39,46 @@ app.get("/restaurants/:id", async (request, response) => {
 
 app.get("/reservations", checkJwt, async (request, response) => {
   const { auth } = request;
-  if(auth.payload.sub) {
+  if (auth.payload.sub) {
     const reservations = await ReservationModel.find({
       userId: auth.payload.sub,
     });
     const formattedReservations = reservations.map((reservation) =>
       formatReservation(reservation)
     );
-     return response.status(200).send(formattedReservations);
+    return response.status(200).send(formattedReservations);
   }
-  return response.status(401).send({UnauthorizedError: "Unauthorized"})
 });
 
 app.get("/reservations/:id", checkJwt, async (request, response) => {
   const { id } = request.params;
   const { auth } = request;
-  if (auth.payload.sub) {
-    if (!validId(id)) {
-      return response.status(400).send({ error: "invalid id is provided" });
-    }
-    const reservation = await ReservationModel.findById(id);
-
-    if (reservation === null) {
-      return response.status(404).send({ error: "not found" });
-    }
-    if (reservation.userId === auth.payload.sub) {
-      return response.status(200).send(formatReservation(reservation));
-    }
-    else {
-      return response.status(403).send({ Un: "user does not have permission to access this reservation" });
-    }
+  if (!validId(id)) {
+    return response.status(400).send({ error: "invalid id is provided" });
+  }
+  const requested = await ReservationModel.findById(id);
+  if (requested === null) {
+    return response.status(404).send({ error: "not found" });
+  }
+  const reservations = await ReservationModel.find({
+    userId: auth.payload.sub,
+  });
+  if (reservations.length === 0) {
+    return response.status(403).send({
+      error: "user does not have permission to access this reservation",
+    });
+  }
+  let authorized = false;
+  if (reservations[0].userId === requested.userId) {
+    authorized = true;
+  }
+  if (authorized) {
+    return response.status(200).send(formatReservation(requested));
+  }
+  if (!authorized) {
+    return response.status(403).send({
+      error: "user does not have permission to access this reservation",
+    });
   }
 });
 
@@ -89,7 +99,7 @@ app.post(
         userId: auth.payload.sub,
         ...body,
       };
-      
+
       const bookReservation = new ReservationModel(reservationBody);
       await bookReservation.save();
       return response.status(201).send(formatReservation(bookReservation));

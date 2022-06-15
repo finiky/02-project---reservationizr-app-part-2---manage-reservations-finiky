@@ -8,8 +8,7 @@ const ReservationList = () => {
   useEffect(() => {
     const fetchData = async () => {
       const accessToken = await getAccessTokenSilently();
-      const fetchUrl = "http://localhost:5001/reservations";
-      const response = await fetch(fetchUrl, {
+      const response = await fetch("http://localhost:5001/reservations", {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${accessToken}`,

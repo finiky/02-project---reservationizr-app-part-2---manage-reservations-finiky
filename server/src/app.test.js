@@ -85,10 +85,22 @@ describe("app", () => {
 
     await request(app)
       .get("/reservations")
-      .set('Accept', 'application/json')
+      .set("Accept", "application/json")
       .expect((response) => expect(response.body).toEqual(expected))
       .expect(200);
   });
+
+  test("app.get('reservations/otheruser-reservation ID'), should return the user is trying to access a reservation they did not create and a 403 status", async () => {
+    const expected = {error: "user does not have permission to access this reservation" };
+    await request(app)
+      .get("/reservations/61679189b54f48aa6599a7fd")
+      .set("Accept", "application/json")
+      .expect(403)
+      .expect((response) => {
+        expect(response.body).toEqual(expected)
+      })
+  });
+
   test("app.get('/reservations/:id), should return a single reservation and a 200 ok status", async () => {
     const expected = {
       id: "507f1f77bcf86cd799439011",
@@ -99,7 +111,7 @@ describe("app", () => {
     };
     await request(app)
       .get("/reservations/507f1f77bcf86cd799439011")
-      .set('Accept', 'application/json')
+      .set("Accept", "application/json")
       .expect((response) => expect(response.body).toEqual(expected))
       .expect(200);
   });
@@ -110,7 +122,7 @@ describe("app", () => {
     };
     await request(app)
       .get("/reservations/invalid-id")
-      .set('Accept', 'application/json')
+      .set("Accept", "application/json")
       .expect((response) => expect(response.body).toEqual(expected))
       .expect(400);
   });
@@ -135,7 +147,7 @@ describe("app", () => {
     const response = await request(app)
       .post("/restaurants/616005cae3c8e880c13dc0b9")
       .send(body)
-      .set('Accept', 'application/json')
+      .set("Accept", "application/json")
       .expect(201)
       .expect((response) => {
         expect(response.body).toEqual(expect.objectContaining(body));
@@ -159,16 +171,42 @@ describe("app", () => {
       });
   });
 
-  test("app.post('/restaurant/616005cae3c8e880c13dc0b9'), should respond with a Validation failed and a 400 status code when the user fails to send required data", async () => {
+  test("app.post('/restaurant/616005cae3c8e880c13dc0b9'), should respond with a 400 status code when the user fails to send required data(partySize)", async () => {
     const body = {
-      date: "2020-11-17T06:30:00.000Z",
-      userId: "mock-id",
+      date: "2023-11-17T06:30:00.000Z",
+      userId: "mock-user-id",
       restaurantName: "Palace Grill",
     };
     await request(app)
       .post("/restaurants/616005cae3c8e880c13dc0b9")
       .send(body)
-      .set('Accept', 'application/json')
+      .set("Accept", "application/json")
+      .expect(400);
+  });
+
+  test("app.post('/restaurant/616005cae3c8e880c13dc0b9'), should respond with a 400 status code when the user selects a past date", async () => {
+    const body = {
+      date: "2020-11-17T06:30:00.000Z",
+      userId: "mock-user-id",
+      restaurantName: "Palace Grill",
+    };
+    await request(app)
+      .post("/restaurants/616005cae3c8e880c13dc0b9")
+      .send(body)
+      .set("Accept", "application/json")
+      .expect(400);
+  });
+
+  test("app.post('/restaurant/616005cae3c8e880c13dc0b9'), should respond with a 400 status code when the user fails to send required data(restaurantName)", async () => {
+    const body = {
+      date: "2020-11-17T06:30:00.000Z",
+      userId: "mock-user-id",
+      restaurantName: "Palace Grill",
+    };
+    await request(app)
+      .post("/restaurants/616005cae3c8e880c13dc0b9")
+      .send(body)
+      .set("Accept", "application/json")
       .expect(400);
   });
 });
