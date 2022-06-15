@@ -54,7 +54,6 @@ app.get("/reservations", checkJwt, async (request, response) => {
 app.get("/reservations/:id", checkJwt, async (request, response) => {
   const { id } = request.params;
   const { auth } = request;
-  console.log(auth.payload.sub);
   if (auth.payload.sub) {
     if (!validId(id)) {
       return response.status(400).send({ error: "invalid id is provided" });

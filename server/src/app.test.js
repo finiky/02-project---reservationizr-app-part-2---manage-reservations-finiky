@@ -90,11 +90,11 @@ describe("app", () => {
   });
   test("app.get('/reservations/:id), should return a single reservation and a 200 ok status", async () => {
     const expected = {
-        id: "507f1f77bcf86cd799439011",
-        partySize: 4,
-        date: "2023-11-17T06:30:00.000Z",
-        userId: "mock-user-id",
-        restaurantName: "Island Grill"
+      id: "507f1f77bcf86cd799439011",
+      partySize: 4,
+      date: "2023-11-17T06:30:00.000Z",
+      userId: "mock-user-id",
+      restaurantName: "Island Grill",
     };
     await request(app)
       .get("/reservations/507f1f77bcf86cd799439011")
@@ -131,12 +131,14 @@ describe("app", () => {
 
     const response = await request(app)
       .post("/restaurants/616005cae3c8e880c13dc0b9")
-      .send(body);
-    expect(response.status).toEqual(201);
-    expect(response.body).toEqual(expect.objectContaining(body));
-    expect(response.body.id).toBeTruthy();
-    const isValidId = mongoose.Types.ObjectId.isValid(response.body.id);
-    expect(isValidId).toEqual(true);
+      .send(body)
+      .expect(201)
+      .expect((response) => {
+        expect(response.body).toEqual(expect.objectContaining(body));
+        expect(response.body.id).toBeTruthy();
+        const isValidId = mongoose.Types.ObjectId.isValid(response.body.id);
+        expect(isValidId).toEqual(true);
+      });
     const id = response.body.id;
     const userId = response.body.userId;
     // check the new document by retriving it
@@ -164,6 +166,5 @@ describe("app", () => {
       .send(body)
       .set("Accept", "application/json")
       .expect(400);
-      
   });
 });
