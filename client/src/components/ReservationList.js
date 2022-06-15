@@ -43,7 +43,7 @@ const ReservationList = () => {
                 className="linkReservation"
                 href={`http://localhost:3000/reservations/${id}`}
               >
-                View details
+                View details &rarr;
               </a>
             </li>
           );
