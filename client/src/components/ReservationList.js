@@ -12,7 +12,7 @@ const ReservationList = () => {
       const response = await fetch(fetchUrl, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
+          "Authorization": `Bearer ${accessToken}`,
         },
       });
       const data = await response.json();
@@ -23,21 +23,26 @@ const ReservationList = () => {
   if (reservations.length === 0) {
     return (
       <>
-        <p>You don't have any reservations</p>
-        <a href="http://localhost:3000">View the restaurants</a>
+        <p className="noReservation">You don't have any reservations</p>
+        <a className="linkToRests" href="http://localhost:3000">
+          View the restaurants
+        </a>
       </>
     );
   }
   return (
     <>
-      <h1>Upcoming reservations</h1>
-      <ul>
+      <h1 className="upcomingRes">Upcoming reservations</h1>
+      <ul className="reservationList">
         {reservations.map(({ restaurantName, date, id }) => {
           return (
-            <li key={id}>
-              <h2>{restaurantName}</h2>
-              <p>{formatDate(date)}</p>
-              <a href={`http://localhost:3000/reservations/${id}`}>
+            <li key={id} className="reservation">
+              <h2 className="nameReservation">{restaurantName}</h2>
+              <p className="dateReservation">{formatDate(date)}</p>
+              <a
+                className="linkReservation"
+                href={`http://localhost:3000/reservations/${id}`}
+              >
                 View details
               </a>
             </li>

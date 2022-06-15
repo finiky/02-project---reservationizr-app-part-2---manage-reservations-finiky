@@ -14,7 +14,7 @@ const Reservation = () => {
       const response = await fetch(fetchUrl, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
+          "Authorization": `Bearer ${accessToken}`,
         },
       });
       const data = await response.json();
