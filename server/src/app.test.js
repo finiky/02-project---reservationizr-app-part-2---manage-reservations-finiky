@@ -47,17 +47,17 @@ describe("app", () => {
       .expect(200);
   });
 
-  test("app.get('/restaurants/invalid-id'), should return a message saying id provided is invalid and a 400 status code", async () => {
-    const expected = { message: "id provided is invalid" };
+  test("app.get('/restaurants/invalid-id'), should return a {error: 'id provided is invalid } and a 400 status code", async () => {
+    const expected = { error: "invalid id is provided" };
     await request(app)
       .get("/restaurants/invalid-id")
       .expect((response) => expect(response.body).toEqual(expected))
       .expect(400);
   });
 
-  test("app.get('/restaurants/:id'), should respond with a id not found and a 404 status", async () => {
+  test("app.get('/restaurants/:id'), should respond with a {error: 'restaurant not found'} and a 404 status", async () => {
     const expected = {
-      message: "id not found",
+      error: "restaurant not found",
     };
     await request(app)
       .get("/restaurants/507f1f77bcf86cd799439015")
@@ -103,9 +103,9 @@ describe("app", () => {
       .expect(200);
   });
 
-  test("app.get('/reservations/invalid-id), should return {message: 'id provided is invalid'} and a 400 ok status", async () => {
+  test("app.get('/reservations/invalid-id), should return {error: 'invalid id is provided'} and a 400 ok status", async () => {
     const expected = {
-      message: "id provided is invalid",
+      error: "invalid id is provided",
     };
     await request(app)
       .get("/reservations/invalid-id")
@@ -113,9 +113,9 @@ describe("app", () => {
       .expect(400);
   });
 
-  test("app.get('/reservations/:id), should return {message: 'id not found'} and a 404 ok status", async () => {
+  test("app.get('/reservations/:id), should return {error: 'not found'} and a 404 ok status", async () => {
     const expected = {
-      message: "id not found",
+      error: "not found",
     };
     await request(app)
       .get("/reservations/507f1f77bcf86cd799439012")
