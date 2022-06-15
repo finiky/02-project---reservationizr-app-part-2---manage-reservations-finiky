@@ -88,14 +88,13 @@ describe("app", () => {
       .expect((response) => expect(response.body).toEqual(expected))
       .expect(200);
   });
-
   test("app.get('/reservations/:id), should return a single reservation and a 200 ok status", async () => {
     const expected = {
-      date: "2023-11-17T06:30:00.000Z",
-      id: "507f1f77bcf86cd799439011",
-      partySize: 4,
-      userId: "mock-user-id",
-      restaurantName: "Island Grill",
+        id: "507f1f77bcf86cd799439011",
+        partySize: 4,
+        date: "2023-11-17T06:30:00.000Z",
+        userId: "mock-user-id",
+        restaurantName: "Island Grill"
     };
     await request(app)
       .get("/reservations/507f1f77bcf86cd799439011")
@@ -154,7 +153,7 @@ describe("app", () => {
       });
   });
 
-  test("app.post('/restaurant/616005cae3c8e880c13dc0b9'), should respond with a Validation error and a 400 status code when the user fails to send required data", async () => {
+  test("app.post('/restaurant/616005cae3c8e880c13dc0b9'), should respond with a Validation failed and a 400 status code when the user fails to send required data", async () => {
     const body = {
       date: "2025-11-17T06:30:00.000Z",
       userId: "mock-id",
@@ -165,5 +164,6 @@ describe("app", () => {
       .send(body)
       .set("Accept", "application/json")
       .expect(400);
+      
   });
 });

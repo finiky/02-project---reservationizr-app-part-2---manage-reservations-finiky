@@ -54,6 +54,7 @@ app.get("/reservations", checkJwt, async (request, response) => {
 app.get("/reservations/:id", checkJwt, async (request, response) => {
   const { id } = request.params;
   const { auth } = request;
+  console.log(auth.payload.sub);
   if (auth.payload.sub) {
     if (!validId(id)) {
       return response.status(400).send({ error: "invalid id is provided" });
@@ -70,7 +71,6 @@ app.get("/reservations/:id", checkJwt, async (request, response) => {
       return response.status(403).send({ Un: "user does not have permission to access this reservation" });
     }
   }
-  return response.status(401).send({UnauthorizedError: "Unauthorized"})
 });
 
 app.post(
@@ -86,9 +86,6 @@ app.post(
   async (request, response, next) => {
     try {
       const { body, auth } = request;
-      if (!auth) {
-        return response.status(401).send({UnauthorizedError: "Unauthorized"})
-      }
       const reservationBody = {
         userId: auth.payload.sub,
         ...body,
@@ -96,11 +93,8 @@ app.post(
       
       const bookReservation = new ReservationModel(reservationBody);
       await bookReservation.save();
-      response.status(201).send(formatReservation(bookReservation));
+      return response.status(201).send(formatReservation(bookReservation));
     } catch (error) {
-      if (error.name === "ValidationError") {
-        error.status = 400;
-      }
       next(error);
     }
   }
