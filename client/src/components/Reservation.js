@@ -27,25 +27,27 @@ const Reservation = () => {
   if (!("restaurantName" in reservation)) {
     return (
       <>
-        <p>Sorry! We can't find that reservation</p>
-        <a href="http://localhost:3000/reservations">
+        <p claasName="notfound">Sorry! We can't find that reservation</p>
+        <a className="linkReser" href="http://localhost:3000/reservations">
           &larr; Back to reservations
         </a>
       </>
     );
   }
-  console.log(reservation.date);
+  
   return (
     <>
-      <h1>Reservation</h1>
-      <h2>{reservation.restaurantName}</h2>
-      <p>{reservation.date}</p>
-      <p>
+    <div className="infoReser">
+      <h1 className="headReser">Reservation</h1>
+      <h2 className="nameReser">{reservation.restaurantName}</h2>
+      <p className="dateReser">{reservation.date}</p>
+      <p className="partySizeReser">
         <b>Party Size:</b> {reservation.partySize}
       </p>
-      <a href="http://localhost:3000/reservations">
-        &larr; Back to reservations
-      </a>
+      </div>
+      <a className="linkReser" href="http://localhost:3000/reservations">
+      &larr; Back to reservations
+    </a>
     </>
   );
 };
