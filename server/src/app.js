@@ -28,24 +28,27 @@ app.get("/restaurants", async (request, response) => {
 app.get("/restaurants/:id", async (request, response) => {
   const { id } = request.params;
   if (validId(id) === false) {
-    return response.status(400).send({ message: "id provided is invalid" });
+    return response.status(400).send({ error: "invalid id is provided" });
   }
   const restaurant = await RestaurantModel.findById(id);
   if (restaurant === null) {
-    return response.status(404).send({ message: "id not found" });
+    return response.status(404).send({ error: "restaurant not found" });
   }
   return response.status(200).send(formatRestaurant(restaurant));
 });
 
 app.get("/reservations", checkJwt, async (request, response) => {
   const { auth } = request;
-  const reservations = await ReservationModel.find({
-    userId: auth.payload.sub,
-  });
-  const formattedReservations = reservations.map((reservation) =>
-    formatReservation(reservation)
-  );
-  response.status(200).send(formattedReservations);
+  if(auth.payload.sub) {
+    const reservations = await ReservationModel.find({
+      userId: auth.payload.sub,
+    });
+    const formattedReservations = reservations.map((reservation) =>
+      formatReservation(reservation)
+    );
+     return response.status(200).send(formattedReservations);
+  }
+  return response.status(401).send({UnauthorizedError: "Unauthorized"})
 });
 
 app.get("/reservations/:id", checkJwt, async (request, response) => {
@@ -53,19 +56,21 @@ app.get("/reservations/:id", checkJwt, async (request, response) => {
   const { auth } = request;
   if (auth.payload.sub) {
     if (!validId(id)) {
-      return response.status(400).send({ message: "id provided is invalid" });
+      return response.status(400).send({ error: "invalid id is provided" });
     }
     const reservation = await ReservationModel.findById(id);
 
     if (reservation === null) {
-      return response.status(404).send({ message: "id not found" });
+      return response.status(404).send({ error: "not found" });
     }
     if (reservation.userId === auth.payload.sub) {
       return response.status(200).send(formatReservation(reservation));
     }
-  } else {
-    return response.status(200).send({ message: "Access denied" });
+    else {
+      return response.status(403).send({ Un: "user does not have permission to access this reservation" });
+    }
   }
+  return response.status(401).send({UnauthorizedError: "Unauthorized"})
 });
 
 app.post(
@@ -81,11 +86,14 @@ app.post(
   async (request, response, next) => {
     try {
       const { body, auth } = request;
+      if (!auth) {
+        return response.status(401).send({UnauthorizedError: "Unauthorized"})
+      }
       const reservationBody = {
         userId: auth.payload.sub,
         ...body,
       };
-      console.log(reservationBody);
+      
       const bookReservation = new ReservationModel(reservationBody);
       await bookReservation.save();
       response.status(201).send(formatReservation(bookReservation));
