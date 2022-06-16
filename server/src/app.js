@@ -83,7 +83,7 @@ app.get("/reservations/:id", checkJwt, async (request, response) => {
 });
 
 app.post(
-  "/restaurants/:id",
+  "/reservations",
   checkJwt,
   celebrate({
     [Segments.BODY]: Joi.object().keys({

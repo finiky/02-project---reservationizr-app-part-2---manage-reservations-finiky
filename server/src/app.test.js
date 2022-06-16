@@ -135,7 +135,7 @@ describe("app", () => {
       .expect(404);
   });
 
-  test("app.post('/restaurants/616005cae3c8e880c13dc0b9'), should add a reservation object to the list of reservation and respond with the newly added reservation and a 201", async () => {
+  test("app.post('/reservations'), should add a reservation object to the list of reservation and respond with the newly added reservation and a 201", async () => {
     const body = {
       partySize: 2,
       date: "2023-12-03T07:00:00.000Z",
@@ -143,7 +143,7 @@ describe("app", () => {
     };
 
     const response = await request(app)
-      .post("/restaurants/616005cae3c8e880c13dc0b9")
+      .post("/reservations")
       .send(body)
       .set("Accept", "application/json")
       .expect(201)
@@ -169,40 +169,40 @@ describe("app", () => {
       });
   });
 
-  test("app.post('/restaurant/616005cae3c8e880c13dc0b9'), should respond with a 400 status code when the user fails to send required data(partySize)", async () => {
+  test("app.post('/reservations'), should respond with a 400 status code when the user fails to send required data(partySize)", async () => {
     const body = {
       date: "2023-11-17T06:30:00.000Z",
       userId: "mock-user-id",
       restaurantName: "Palace Grill",
     };
     await request(app)
-      .post("/restaurants/616005cae3c8e880c13dc0b9")
+      .post("/reservations")
       .send(body)
       .set("Accept", "application/json")
       .expect(400);
   });
 
-  test("app.post('/restaurant/616005cae3c8e880c13dc0b9'), should respond with a 400 status code when the user selects a past date", async () => {
+  test("app.post('/reservations'), should respond with a 400 status code when the user selects a past date", async () => {
     const body = {
       date: "2020-11-17T06:30:00.000Z",
       userId: "mock-user-id",
       restaurantName: "Palace Grill",
     };
     await request(app)
-      .post("/restaurants/616005cae3c8e880c13dc0b9")
+      .post("/reservations")
       .send(body)
       .set("Accept", "application/json")
       .expect(400);
   });
 
-  test("app.post('/restaurant/616005cae3c8e880c13dc0b9'), should respond with a 400 status code when the user fails to send required data(restaurantName)", async () => {
+  test("app.post('/reservations'), should respond with a 400 status code when the user fails to send required data(restaurantName)", async () => {
     const body = {
       date: "2020-11-17T06:30:00.000Z",
       userId: "mock-user-id",
       restaurantName: "Palace Grill",
     };
     await request(app)
-      .post("/restaurants/616005cae3c8e880c13dc0b9")
+      .post("/reservations")
       .send(body)
       .set("Accept", "application/json")
       .expect(400);

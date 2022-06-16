@@ -16,7 +16,7 @@ const CreateReservation = ({ restaurantName, id }) => {
     e.preventDefault();
     const accessToken = await getAccessTokenSilently();
     const reservation = { partySize, date, restaurantName };
-    const response = await fetch(`http://localhost:5001/restaurants/${id}`, {
+    const response = await fetch("http://localhost:5001/reservations", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
