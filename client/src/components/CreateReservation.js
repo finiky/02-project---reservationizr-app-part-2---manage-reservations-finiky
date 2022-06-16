@@ -33,15 +33,13 @@ const CreateReservation = ({ restaurantName, id }) => {
       navigate("/reservations");
     }
   };
+
   if (isError) {
     return (
       <>
         <p className="no-reservation">
           Error creating a reservation (error status {errorStatus})
         </p>
-        <a href={`http://localhost:3000/restaurants/${id}`}>
-          Return to restaurant
-        </a>
       </>
     );
   }
