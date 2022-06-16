@@ -2,6 +2,9 @@
   "name": "02-proj-restaurant-reservation-app",
   "author": "Developers Institute",
   "version": "1.0.0",
+  "engines" : {
+    "node": "16.15.0"
+  },
   "scripts": {
     "start": "nodemon src/server.js",
     "test": "jest --verbose ./src",
