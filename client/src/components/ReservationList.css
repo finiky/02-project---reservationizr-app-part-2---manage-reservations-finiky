@@ -27,7 +27,8 @@ body {
   font-size: 1.2rem;
   color: grey;
 }
-.linkReservation, .linkToRests {
+.linkReservation,
+.linkToRests {
   color: red;
   font-size: 1.2rem;
 }
@@ -36,16 +37,18 @@ body {
 }
 
 @media only screen and (min-width: 34rem) {
-    .reservation {
-        display: grid;
-        grid-template-columns: 1fr 1.5fr 1fr;
-        grid-gap: 4rem;
-        align-items: center;
-    }
-    .nameReservation, .dateReservation, .linkReservation {
-        font-size: 1rem;
-    }
-    .nameReservation {
-        margin-top: 0;
-    }
+  .reservation {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr 1fr;
+    grid-gap: 4rem;
+    align-items: center;
+  }
+  .nameReservation,
+  .dateReservation,
+  .linkReservation {
+    font-size: 1rem;
+  }
+  .nameReservation {
+    margin-top: 0;
+  }
 }

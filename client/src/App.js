@@ -19,6 +19,7 @@ const App = () => {
       <Header />
       <div className="container">
         <Routes>
+          <Route path="/" element={<RestaurantList />} />
           <Route path="/restaurants/:id" element={<ProtectedRoute />}>
             <Route path="/restaurants/:id" element={<Restaurant />} />
           </Route>
@@ -28,7 +29,6 @@ const App = () => {
           <Route path="/reservations" element={<ProtectedRoute />}>
             <Route path="/reservations" element={<ReservationList />} />
           </Route>
-          <Route path="/" element={<RestaurantList />} />
         </Routes>
       </div>
     </>

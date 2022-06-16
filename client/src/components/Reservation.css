@@ -25,6 +25,7 @@
   width: 100%;
 }
 .notFound {
+  font-size: larger;
   color: red;
   margin-bottom: 2rem;
 }

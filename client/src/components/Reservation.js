@@ -26,8 +26,7 @@ const Reservation = () => {
         setReservation(data);
         setNotFound(false);
         setIsLoading(false);
-      }
-      else {
+      } else {
         setNotFound(true);
         setIsLoading(false);
       }
