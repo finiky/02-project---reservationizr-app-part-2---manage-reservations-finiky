@@ -85,7 +85,6 @@ describe("app", () => {
 
     await request(app)
       .get("/reservations")
-      .set("Accept", "application/json")
       .expect((response) => expect(response.body).toEqual(expected))
       .expect(200);
   });
@@ -96,7 +95,6 @@ describe("app", () => {
     };
     await request(app)
       .get("/reservations/61679189b54f48aa6599a7fd")
-      .set("Accept", "application/json")
       .expect(403)
       .expect((response) => {
         expect(response.body).toEqual(expected);
@@ -113,7 +111,6 @@ describe("app", () => {
     };
     await request(app)
       .get("/reservations/507f1f77bcf86cd799439011")
-      .set("Accept", "application/json")
       .expect((response) => expect(response.body).toEqual(expected))
       .expect(200);
   });
@@ -124,7 +121,6 @@ describe("app", () => {
     };
     await request(app)
       .get("/reservations/invalid-id")
-      .set("Accept", "application/json")
       .expect((response) => expect(response.body).toEqual(expected))
       .expect(400);
   });
