@@ -1,5 +1,6 @@
 import "./ReservationList.css";
 import { formatDate } from "../utils/formatDate";
+import { Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 const ReservationList = () => {
@@ -24,9 +25,9 @@ const ReservationList = () => {
       <>
         <h1 className="upcomingRes">Upcoming reservations</h1>
         <p className="noReservation">You don't have any reservations</p>
-        <a className="linkToRests" href="http://localhost:3000">
+        <Link className="linkToRests" to="/">
           View the restaurants
-        </a>
+        </Link>
       </>
     );
   }
@@ -39,12 +40,12 @@ const ReservationList = () => {
             <li key={id} className="reservation">
               <h2 className="nameReservation">{restaurantName}</h2>
               <p className="dateReservation">{formatDate(date)}</p>
-              <a
+              <Link
                 className="linkReservation"
-                href={`http://localhost:3000/reservations/${id}`}
+                to={`/reservations/${id}`}
               >
                 View details &rarr;
-              </a>
+              </Link>
             </li>
           );
         })}

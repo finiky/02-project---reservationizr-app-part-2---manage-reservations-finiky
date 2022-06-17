@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { formatDate } from "../utils/formatDate";
 import "./Reservation.css";
 import React, { useState, useEffect } from "react";
@@ -42,9 +42,9 @@ const Reservation = () => {
       <>
         <div className="noReser">
           <p className="notFound">Sorry! We can't find that reservation</p>
-          <a className="linkReser" href="http://localhost:3000/reservations">
+          <Link className="linkReser" to="/reservations">
             &larr; Back to reservations
-          </a>
+          </Link>
         </div>
       </>
     );
