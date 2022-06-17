@@ -36,13 +36,15 @@ const ReservationList = () => {
       <h1 className="upcomingRes">Upcoming reservations</h1>
       <ul className="reservationList">
         {reservations.map(({ restaurantName, date, id }) => {
+          const link = `/reservations/${id}`;
           return (
             <li key={id} className="reservation">
               <h2 className="nameReservation">{restaurantName}</h2>
               <p className="dateReservation">{formatDate(date)}</p>
+              
               <Link
                 className="linkReservation"
-                to={`/reservations/${id}`}
+                to={link}
               >
                 View details &rarr;
               </Link>
