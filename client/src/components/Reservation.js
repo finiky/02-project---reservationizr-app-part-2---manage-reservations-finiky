@@ -13,7 +13,7 @@ const Reservation = () => {
     const fetchReservation = async () => {
       setIsLoading(true);
       const accessToken = await getAccessTokenSilently();
-      const fetchUrl = `${process.env.REACT_APP_API_URL}/restaurants/${id}`;
+      const fetchUrl = `${process.env.REACT_APP_API_URL}/reservations/${id}`;
       const response = await fetch(fetchUrl, {
         headers: {
           "Content-Type": "application/json",
