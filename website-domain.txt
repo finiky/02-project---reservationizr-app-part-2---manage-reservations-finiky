@@ -1,4 +1,8 @@
 Add your deployed website domain's / URL's below
 
-React application URL / domain:
-API URL / domain:
+React application URL / domain: https://sunny-meringue-48ab78.netlify.app
+
+API URL / domain: https://booking.com
+
+REACT_APP_API_URL = http://localhost:5001
+
