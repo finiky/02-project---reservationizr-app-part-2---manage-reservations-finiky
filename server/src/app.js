@@ -39,7 +39,6 @@ app.get("/restaurants/:id", async (request, response) => {
 
 app.get("/reservations", checkJwt, async (request, response) => {
   const { auth } = request;
-  if (auth.payload.sub) {
     const reservations = await ReservationModel.find({
       userId: auth.payload.sub,
     });
@@ -47,7 +46,6 @@ app.get("/reservations", checkJwt, async (request, response) => {
       formatReservation(reservation)
     );
     return response.status(200).send(formattedReservations);
-  }
 });
 
 app.get("/reservations/:id", checkJwt, async (request, response) => {
