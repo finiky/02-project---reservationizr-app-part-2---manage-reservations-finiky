@@ -11,7 +11,9 @@ const Restaurant = () => {
   const [invalid, setInvalid] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/restaurants/${id}`);
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/restaurants/${id}`
+      );
       if (response.status === 400) {
         setInvalid(true);
         setNotFound(false);

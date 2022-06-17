@@ -9,12 +9,15 @@ const ReservationList = () => {
   useEffect(() => {
     const fetchData = async () => {
       const accessToken = await getAccessTokenSilently();
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/reservations`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/reservations`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
       const data = await response.json();
       setReservations(data);
     };
@@ -41,11 +44,8 @@ const ReservationList = () => {
             <li key={id} className="reservation">
               <h2 className="nameReservation">{restaurantName}</h2>
               <p className="dateReservation">{formatDate(date)}</p>
-              
-              <Link
-                className="linkReservation"
-                to={link}
-              >
+
+              <Link className="linkReservation" to={link}>
                 View details &rarr;
               </Link>
             </li>
