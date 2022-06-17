@@ -1,0 +1,31 @@
+* {
+  box-sizing: border-box;
+}
+.infoReser {
+  border-bottom: 1px dashed #ccc;
+  margin-bottom: 4rem;
+  padding-bottom: 2rem;
+}
+.dateReser,
+.partySizeReser {
+  font-size: 1.2rem;
+}
+.nameReser {
+  font-size: 1.75rem;
+}
+.linkReser {
+  padding: 0.75rem 0.75rem;
+  background-color: lightgrey;
+  border-radius: 8px;
+  color: black;
+  text-decoration: none;
+  font-size: 1.1rem;
+}
+.noReser {
+  width: 100%;
+}
+.notFound {
+  font-size: larger;
+  color: red;
+  margin-bottom: 2rem;
+}

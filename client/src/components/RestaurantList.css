@@ -1,0 +1,81 @@
+* {
+  box-sizing: border-box;
+}
+.restaurants {
+  list-style-type: none;
+  padding: 0;
+}
+.link {
+  text-decoration: none;
+}
+body {
+  height: auto;
+  margin-bottom: 1rem;
+  background-color: whitesmoke;
+}
+.heading {
+  padding-top: 3rem;
+}
+.main,
+.restaurants,
+.restaurant,
+.information {
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+}
+.information {
+  padding-left: 0.5rem;
+}
+.name,
+.description,
+.link {
+  margin: 0;
+}
+.main,
+.container {
+  background-color: whitesmoke;
+  grid-row-gap: 1rem;
+  margin: 0 auto;
+}
+.restaurants {
+  grid-row-gap: 2rem;
+}
+.restaurant {
+  background-color: white;
+  padding-bottom: 1.5rem;
+  grid-row-gap: 0.5rem;
+}
+.imageContainer {
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+}
+.image {
+  width: 100%;
+  height: auto;
+}
+.link {
+  justify-self: left;
+  border-radius: 3px;
+  padding: 1rem;
+  background-color: rgb(247, 60, 60);
+  color: white;
+  margin-top: 2rem;
+}
+@media only screen and (min-width: 34rem) {
+  body {
+    max-width: 80rem;
+    margin-bottom: 2rem;
+  }
+  .restaurant {
+    grid-template-columns: 15rem auto;
+  }
+  .information {
+    margin-top: 0.5rem;
+    grid-gap: 1rem;
+    padding-right: 1rem;
+  }
+}
